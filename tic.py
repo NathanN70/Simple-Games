@@ -55,5 +55,9 @@ def start():
             except (TypeError, ValueError, IndexError):
                 print("Invalid input. Choose a number between 0-8")
     pass
-    
-start()
+while True:
+    print("Tic-Tac-Toe")
+    if (input('Type "1" to play: ')) == "1":
+        start()
+    else:
+        break
