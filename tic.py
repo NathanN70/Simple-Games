@@ -3,7 +3,7 @@
 
 global grid
 global turn
-grid = [-1,-1,-1,-1,-1,-1,-1,-1,-1]
+grid = [-1]*9
 turn = 0
 # return player number of victor if any, else return 0
 # checks for winner based on most recent move
@@ -43,7 +43,7 @@ def start():
     player_turn = (1 + turn) % 2
     game_state = True
     # initial grid, -1 indicates untouched
-    grid = [-1,-1,-1,-1,-1,-1,-1,-1,-1]
+    grid = [-1]*9
     # 0 indicates player 1(first to move) possession
     # 1 indicates player 2 possession
     while game_state == True:
