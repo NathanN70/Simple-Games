@@ -1,3 +1,6 @@
+# tic-tac-toe. 2 players alternate occupying one space of a 3x3 grid. The first to get 3 of their mark in a line(horizontal, diagonal, or vertical) wins
+# Currently only 3x3 with goal being 3 in a row
+
 global grid
 global turn
 # initial grid, -1 indicates untouched
@@ -20,7 +23,7 @@ def check_winner(spot:int):
 def move(spot:int):
     global turn
     if grid[spot] != -1:
-        print("invalid move")
+        print("Occupied. Choose a spot that has not been occupied")
         return
     grid[spot] = turn % 2
     winning_status = check_winner(spot)
@@ -32,7 +35,17 @@ def move(spot:int):
         turn += 1
         print("Turn " + str(turn + 1) + str(grid))
 
-
-move(2)
+def start():
+    player_turn = (1 + turn) % 2
+    game_state = 0
+    while True:
+        try:
+            spot = int(input("Player " + str(player_turn) + " choose your move: "))
+            move(spot)
+            break
+        except (TypeError, ValueError, IndexError):
+            print("Invalid input. Choose a number between 0-8")
+    pass
+start()
 print(turn)
 print(grid)
