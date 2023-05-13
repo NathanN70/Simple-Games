@@ -29,9 +29,6 @@ def move(spot:int):
         turn += 1
         print("Turn " + str(turn + 1) + str(grid))
 
-# initial grid, -1 indicates untouched
-# 0 indicates player 1(first to move) possession
-# 1 indicates player 2 possession
 
 move(2)
 print(turn)
