@@ -19,6 +19,9 @@ def check_winner(spot:int):
 # prints that the move is invalid if spot already claimed
 def move(spot:int):
     global turn
+    if grid[spot] != -1:
+        print("invalid move")
+        return
     grid[spot] = turn % 2
     winning_status = check_winner(spot)
     if (winning_status == 1):
