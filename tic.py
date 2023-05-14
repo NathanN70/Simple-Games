@@ -12,6 +12,8 @@ def check_winner(spot:int):
     if spot in [0,2,4,6,8]:
         if diag_check(spot):
             return (turn % 2) + 1
+    if horiz_check(spot):
+        return (turn% 2) + 1
     return 0
 
 def diag_check(spot:int):
@@ -21,7 +23,19 @@ def diag_check(spot:int):
     if spot in [2,4,6]:
         if grid[2] == grid[4] and grid[2] == grid[6]:
             return True
-    return
+    return False
+
+def horiz_check(spot:int):
+    if spot in [0,1,2]:
+        if grid[0] == grid[1] and grid[0] == grid[2]:
+            return True
+    if spot in [3,4,5]:
+        if grid[3] == grid[4] and grid[3] == grid[5]:
+            return True
+    if spot in [6,7,8]:
+        if grid[7] == grid[8] and grid[8] == grid[9]:
+            return True
+    return False
 # function for one move, called for each turn
 # replaces an empty spot on grid
 # prints victory announcement if winner is determined
