@@ -33,7 +33,19 @@ def horiz_check(spot:int):
         if grid[3] == grid[4] and grid[3] == grid[5]:
             return True
     if spot in [6,7,8]:
-        if grid[7] == grid[8] and grid[8] == grid[9]:
+        if grid[7] == grid[8] and grid[8] == grid[6]:
+            return True
+    return False
+
+def vert_check(spot:int):
+    if spot in [0,3,6]:
+        if grid[0] == grid[3] and grid[0] == grid[6]:
+            return True
+    if spot in [1,4,7]:
+        if grid[1] == grid[4] and grid[1] == grid[7]:
+            return True
+    if spot in [2,5,8]:
+        if grid[2] == grid[8] and grid[8] == grid[5]:
             return True
     return False
 # function for one move, called for each turn
