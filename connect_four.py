@@ -5,16 +5,18 @@
 global grid
 global turn
 grid = []
-for x in range(7):
-    grid.append([])
+# for x in range(7):
+#     grid.append([])
+grid = [ [] for _ in range(7)]
 turn = 0
 print(grid)
 
 def move(spot:int):
-    if grid[spot].len() == 6:
+    col = grid[spot]
+    if len(col) == 6:
         print("Column Full")
         return True
-    grid[spot].append(turn % 2)
+    col.append(turn % 2)
     winning_status = check_winner(spot)
     if (winning_status == 1):
         print("Player 1 Wins!")
@@ -32,3 +34,7 @@ def move(spot:int):
     
 def check_winner(spot:int):
     pass
+
+move(1)
+move(1)
+print(grid)
