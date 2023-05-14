@@ -9,10 +9,19 @@ turn = 0
 # checks for winner based on most recent move
 # add more comments as more complete
 def check_winner(spot:int):
-    if(spot == 0):
-        return 0
+    if spot in [0,2,4,6,8]:
+        if diag_check(spot):
+            return (turn % 2) + 1
     return 0
 
+def diag_check(spot:int):
+    if spot in [0,4,8]:
+        if grid[0] == grid[4] and grid[0] == grid[8]:
+            return True
+    if spot in [2,4,6]:
+        if grid[2] == grid[4] and grid[2] == grid[6]:
+            return True
+    return
 # function for one move, called for each turn
 # replaces an empty spot on grid
 # prints victory announcement if winner is determined
