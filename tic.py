@@ -60,9 +60,11 @@ def move(spot:int):
     grid[spot] = turn % 2
     winning_status = check_winner(spot)
     if (winning_status == 1):
+        print(grid)
         print("Player 1 Wins!")
         return False
     elif(winning_status == 2):
+        print(grid)
         print("Player 2 Wins!")
         return False
     else:
@@ -74,8 +76,9 @@ def move(spot:int):
         return True
 
 def start():
+    global turn
     turn = 0
-    player_turn = (1 + turn) % 2
+    player_turn = (turn % 2) + 1
     game_state = True
     # initial grid, -1 indicates untouched
     grid = [-1]*9
@@ -84,6 +87,7 @@ def start():
     while game_state == True:
         while True:
             try:
+                player_turn = (turn % 2) + 1
                 spot = int(input("Player " + str(player_turn) + " choose your move: "))
                 game_state = move(spot)
                 break
