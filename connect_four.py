@@ -48,10 +48,10 @@ def check_vert(spot:int):
 def check_hori(spot:int):
     pass
 
-def check_diag_up(spot:int):
+def check_diag_up_left(spot:int):
     pass
 
-def check_diag_down(spot:int):
+def check_diag_up_right(spot:int):
     pass
 
 move(1)
