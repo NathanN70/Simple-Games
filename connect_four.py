@@ -8,6 +8,13 @@ grid = []
 # for x in range(7):
 #     grid.append([])
 grid = [ [] for _ in range(7)]
+col1 = []
+col2 = []
+col3 = []
+col4 = []
+col5 = []
+col6 = []
+col7 = []
 turn = 0
 print(grid)
 
@@ -33,6 +40,18 @@ def move(spot:int):
         return True
     
 def check_winner(spot:int):
+    pass
+
+def check_vert(spot:int):
+    pass
+
+def check_hori(spot:int):
+    pass
+
+def check_diag_up(spot:int):
+    pass
+
+def check_diag_down(spot:int):
     pass
 
 move(1)
