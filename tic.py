@@ -81,7 +81,8 @@ def start():
     player_turn = (turn % 2) + 1
     game_state = True
     # initial grid, -1 indicates untouched
-    grid = [-1]*9
+    for x in range(9):
+        grid[x] = -1
     # 0 indicates player 1(first to move) possession
     # 1 indicates player 2 possession
     while game_state == True:
