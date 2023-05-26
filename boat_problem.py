@@ -35,4 +35,9 @@ def boat_river_width(first_left:int, second_left:int, first_right:int, second_ri
             return -2
         if to_return == -1:
             to_return = (first_right * 3 + second_right) / 2
+    if (first_right != -1 & second_left != -1):
+        if to_return != -1 & to_return != (first_right * 3 + second_left) / 2:
+            return -2
+        if to_return == -1:
+            to_return = (first_right * 3 - second_right) / 2
     return to_return
