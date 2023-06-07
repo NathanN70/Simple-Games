@@ -31,11 +31,15 @@ while True:
         while max_interval < 2:
             try:
                 max_interval = int(input('What is the maximum interval? '))
+                if max_interval < 2:
+                    print("Choose a value greater than or equal to 2")
             except (TypeError, ValueError):
                 print("Invalid input. Choose a number greater than 1")
         while goal < 2:
             try:
                 goal = int(input('What is the goal number(the number you need to say to win)? '))
+                if goal < 2:
+                    print("Choose a value greater than or equal to 2")
             except (TypeError, ValueError):
                 print("Invalid input. Choose a number greater than 2")
         play(max_interval, goal)
