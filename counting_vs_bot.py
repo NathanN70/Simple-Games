@@ -38,6 +38,10 @@ def play(max_interval:int, goal:int, human_turn:int, difficulty:int):
 
     player_turn -= 1
     print("Game Over: Player " + str(player_turn % 2 + 1) + " wins")
+    if player_turn % 2 == human_turn:
+        print("Human victory")
+    else:
+        print("Bot victory")
 
 while True:
     print("Counting Game")
