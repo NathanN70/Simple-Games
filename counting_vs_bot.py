@@ -1,3 +1,5 @@
+import random
+
 # two people take turns counting up by 1 or 2. The goal is to say 21.
 # different variations can exist based on the values that can be counted up by or the goal number.
 # This is the 1 player version, playing against a bot that will always play the best moves.
@@ -10,18 +12,30 @@ def play(max_interval:int, goal:int, human_turn:int):
     player_turn = 0
 
     while current < goal:
-        print("player " + str(player_turn % 2 + 1) + " turn")
-        move = 0
-        while move < 1 or move > max_interval:
-            try:
-                move = int(input('Type a valid number between 1 and ' + str(max_interval) + " "))
-                if move < 1 or move > max_interval:
+        if human_turn == player_turn % 2:
+            print("player turn")
+            move = 0
+            while move < 1 or move > max_interval:
+                try:
+                    move = int(input('Type a valid number between 1 and ' + str(max_interval) + " "))
+                    if move < 1 or move > max_interval:
+                        print("Invalid input. Choose a number between 1 and " + str(max_interval) + " ")
+                except (TypeError, ValueError):
                     print("Invalid input. Choose a number between 1 and " + str(max_interval) + " ")
-            except (TypeError, ValueError):
-                print("Invalid input. Choose a number between 1 and " + str(max_interval) + " ")
-        player_turn += 1
-        current += move
-        print(str(current))
+            player_turn += 1
+            current += move
+            print(str(current))
+        else:
+            print("computer turn")
+            move = 0
+            if (goal - current) % (max_interval + 1) == 0:
+                move = random.randint(1,max_interval)
+            else:
+                move = (goal - current) % (max_interval + 1)
+            current += move
+            player_turn += 1
+            print(str(current))
+
     player_turn -= 1
     print("Game Over: Player " + str(player_turn % 2 + 1) + " wins")
 
