@@ -7,7 +7,7 @@ import random
 # play function: first argument is max_interval, the most that can be counted up to by a player in a single turn
 # second argument: goal, the number that each player is trying to say and wins upon saying
 # third argument: whether the player goes first
-def play(max_interval:int, goal:int, human_turn:int):
+def play(max_interval:int, goal:int, human_turn:int, difficulty:int):
     current = 0
     player_turn = 0
 
@@ -28,7 +28,7 @@ def play(max_interval:int, goal:int, human_turn:int):
         else:
             print("computer turn")
             move = 0
-            if (goal - current) % (max_interval + 1) == 0:
+            if (goal - current) % (max_interval + 1) == 0 or difficulty == 0:
                 move = random.randint(1,max_interval)
             else:
                 move = (goal - current) % (max_interval + 1)
@@ -45,6 +45,7 @@ while True:
         max_interval = 0
         goal = 0
         human_turn = -1
+        difficulty = -1
         while human_turn == -1:
             try:
                 human_turn = int(input('Do you want to go first? Type "0" if you want to go first and "1" if you want to go second: '))
@@ -56,13 +57,24 @@ while True:
         while max_interval < 2:
             try:
                 max_interval = int(input('What is the maximum interval? '))
+                if max_interval < 2:
+                    print("Invalid input")
             except (TypeError, ValueError):
                 print("Invalid input. Choose a number greater than 1")
         while goal < 2:
             try:
                 goal = int(input('What is the goal number(the number you need to say to win)? '))
+                if goal < 2:
+                    print("Invalid Input")
             except (TypeError, ValueError):
                 print("Invalid input. Choose a number greater than 2")
-        play(max_interval, goal, human_turn)
+        while difficulty < 0 or difficulty > 1:
+            try:
+                difficulty = int(input('How difficult do you want the bot to be? Type "1" for hard mode and type "0" for easy mode: '))
+                if difficulty < 0 or difficulty > 1:
+                    print("Invalid Input")
+            except (TypeError, ValueError):
+                print("Invalid Input")
+        play(max_interval, goal, human_turn, difficulty)
     else:
         break
