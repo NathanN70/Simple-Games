@@ -4,8 +4,10 @@ class minesweeper:
     def __init__(self, width, height, mines):
         if mines > width * height:
             print("Invalid Parameters, Too Many Mines")
+            raise
         if width < 1 or height < 1 or mines < 1:
             print("Invalid Parameters: Width, Height, and Mine Count >= 1")
+            raise
         self.width = width
         self.height = height
         self.mines = mines
@@ -63,7 +65,9 @@ def play(width = 10, height = 10, mines = 15):
 resume = True
 while resume == True:
     try:
-        play(str(input("Board Width? ")), str(input("Board Height?" )), str(input("Mine Count? ")))
+        play(int(input("Board Width? ")), int(input("Board Height?" )), int(input("Mine Count? ")))
         resume = False
+    except TypeError:
+        print("Input an Integer")
     except:
         pass
