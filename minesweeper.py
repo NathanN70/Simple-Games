@@ -1,4 +1,4 @@
-import math, random
+import random
 
 class minesweeper:
     def __init__(self, width, height, mines):
@@ -12,6 +12,13 @@ class minesweeper:
         # for grid, -1 represents tile with mines, 0-8 means that many mines in neighboring(adjascent including diagonal) tiles
         self.grid = [[0 for x in range(height)] for x in range(width)]
         # place mines in random spots
+        random.seed()
+        places = random.sample([x for x in range(width * height)], k = mines)
+        for spot in places:
+            x = spot % width
+            y = spot // width
+            self.grid[x][y] = -1
+
         for x in range(self.width):
             for y in range(self.height):
                 if self.grid[x][y] == 0:
@@ -38,6 +45,13 @@ class minesweeper:
             self.shown[x][y] = -3
         else:
             self.shown[x][y] = -2
+    
+
+    def show_shown(self):
+        pass
+
+    def move(self):
+        pass
         
         
 
