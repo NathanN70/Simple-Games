@@ -12,6 +12,16 @@ class minesweeper:
         # for grid, -1 represents tile with mines, 0-8 means that many mines in neighboring(adjascent including diagonal) tiles
         self.grid = [[0 for x in range(height)] for x in range(width)]
         # place mines in random spots
+        for x in range(self.width):
+            for y in range(self.height):
+                if self.grid[x][y] == 0:
+                    for checkx in range(-1, 2):
+                        for checky in range(-1, 2):
+                            try:
+                                if self.grid[x + checkx][y + checky] == -1:
+                                    self.grid[x][y] += 1
+                            except:
+                                pass
 
         self.shown = [[-2 for x in range(height)] for x in range(width)]
 
