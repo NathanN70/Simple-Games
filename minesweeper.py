@@ -26,7 +26,11 @@ class minesweeper:
             for y in range(self.height):
                 if self.grid[y][x] == 0:
                     for checkx in range(-1, 2):
+                        if x + checkx < 0:
+                            continue
                         for checky in range(-1, 2):
+                            if y + checky < 0:
+                                continue
                             try:
                                 if self.grid[y + checky][x + checkx] == -1:
                                     self.grid[y][x] += 1
@@ -89,11 +93,13 @@ class minesweeper:
     
     def implicit_move(self, x, y):
         for hor in range(-1, 2):
+            if hor + x < 0:
+                continue
             for ver in range(-1, 2):
+                if y + ver < 0:
+                    continue
                 try:
                     if self.shown[y + ver][x + hor] == 0:
-                        continue
-                    if y + ver < 0 or x + hor < 0:
                         continue
                     self.shown[y + ver][x + hor] = self.grid[y + ver][x + hor]
                     if self.grid[y + ver][x + hor] == 0:
