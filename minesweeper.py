@@ -48,10 +48,16 @@ class minesweeper:
         else:
             self.shown[y][x] = "?"
     
-
     def show_shown(self):
+        print(" X |", end = "")
+        for x in range(self.width):
+            print(str(x + 1).center(3), end = "")
+        print("\n----" + ("---" * self.width))
         for y in range(self.height):
-            print(self.shown[y])
+            print(str(y + 1).center(3), end = "|")
+            for x in range(self.width):
+                print(str(self.shown[y][x]).center(3), end = "")
+            print()
 
     def move(self):
         try:
@@ -76,7 +82,12 @@ class minesweeper:
             if temp == -1:
                 raise GameOver
             self.shown[y][x] = str(temp)
+            self.implicit_move(x, y)
             self.show_shown()
+    
+    def implicit_move(self, x, y):
+        # if move reveals a 0, then 
+        pass
 
         
 class GameOver(Exception):
