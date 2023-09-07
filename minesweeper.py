@@ -82,11 +82,28 @@ class minesweeper:
             if temp == -1:
                 raise GameOver
             self.shown[y][x] = str(temp)
-            self.implicit_move(x, y)
+            if temp == 0:
+                self.implicit_move(x, y)
             self.show_shown()
+            self.check_win()
     
     def implicit_move(self, x, y):
+        for hor in range(-1, 2):
+            for ver in range(-1, 2):
+                try:
+                    if self.shown[y + ver][x + hor] == 0:
+                        continue
+                    if y + ver < 0 or x + hor < 0:
+                        continue
+                    self.shown[y + ver][x + hor] = self.grid[y + ver][x + hor]
+                    if self.grid[y + ver][x + hor] == 0:
+                        self.implicit_move(x + hor, y + ver)
+                except:
+                    pass
         # if move reveals a 0, then 
+        pass
+
+    def check_win(self):
         pass
 
         
