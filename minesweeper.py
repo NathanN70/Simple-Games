@@ -33,25 +33,25 @@ class minesweeper:
                             except:
                                 pass
 
-        self.shown = [[-2 for x in range(width)] for x in range(height)]
+        self.shown = [["?" for x in range(width)] for x in range(height)]
         while self.ongoing:
             self.move()
 
 
     def mark_mine(self, x, y):
         temp = self.shown[y][x]
-        if temp > -2:
+        if temp != "?" and temp != "!":
             print("Invalid Input")
             return
-        if temp == -2:
-            self.shown[y][x] = -3
+        if temp == "?":
+            self.shown[y][x] = "!"
         else:
-            self.shown[y][x] = -2
+            self.shown[y][x] = "?"
     
 
     def show_shown(self):
         for y in range(self.height):
-            print(self.grid[y])
+            print(self.shown[y])
 
     def move(self):
         try:
@@ -64,20 +64,19 @@ class minesweeper:
         except:
             print("Invalid Input.")
             return
-        print(x, y, ifmark)
-        print(self.shown)
         if ifmark == 1:
             self.mark_mine(x,y)
             self.show_shown()
         if ifmark == 2:
             temp = self.shown[y][x]
-            if temp != -2:
+            if temp != "?":
                 print("Invalid Input")
                 return
             temp = self.grid[y][x]
             if temp == -1:
                 raise GameOver
-            self.shown[y][x] = temp
+            self.shown[y][x] = str(temp)
+            self.show_shown()
 
         
 class GameOver(Exception):
