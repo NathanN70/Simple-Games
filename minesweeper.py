@@ -13,45 +13,45 @@ class minesweeper:
         self.height = height
         self.mines = mines
         # for grid, -1 represents tile with mines, 0-8 means that many mines in neighboring(adjascent including diagonal) tiles
-        self.grid = [[0 for x in range(height)] for x in range(width)]
+        self.grid = [[0 for x in range(width)] for x in range(height)]
         # place mines in random spots
         random.seed()
         places = random.sample([x for x in range(width * height)], k = mines)
         for spot in places:
             x = spot % width
             y = spot // width
-            self.grid[x][y] = -1
+            self.grid[y][x] = -1
 
         for x in range(self.width):
             for y in range(self.height):
-                if self.grid[x][y] == 0:
+                if self.grid[y][x] == 0:
                     for checkx in range(-1, 2):
                         for checky in range(-1, 2):
                             try:
-                                if self.grid[x + checkx][y + checky] == -1:
-                                    self.grid[x][y] += 1
+                                if self.grid[y + checky][x + checkx] == -1:
+                                    self.grid[y][x] += 1
                             except:
                                 pass
 
-        self.shown = [[-2 for x in range(height)] for x in range(width)]
+        self.shown = [[-2 for x in range(width)] for x in range(height)]
         while self.ongoing:
             self.move()
 
 
     def mark_mine(self, x, y):
-        temp = self.shown[x][y]
+        temp = self.shown[y][x]
         if temp > -2:
             print("Invalid Input")
             return
         if temp == -2:
-            self.shown[x][y] = -3
+            self.shown[y][x] = -3
         else:
-            self.shown[x][y] = -2
+            self.shown[y][x] = -2
     
 
     def show_shown(self):
-        for x in range(self.width):
-            print(self.grid[x])
+        for y in range(self.height):
+            print(self.grid[y])
 
     def move(self):
         try:
@@ -70,14 +70,14 @@ class minesweeper:
             self.mark_mine(x,y)
             self.show_shown()
         if ifmark == 2:
-            temp = self.shown[x][y]
+            temp = self.shown[y][x]
             if temp != -2:
                 print("Invalid Input")
                 return
-            temp = self.grid[x][y]
+            temp = self.grid[y][x]
             if temp == -1:
                 raise GameOver
-            self.shown[x][y] = temp
+            self.shown[y][x] = temp
 
         
 class GameOver(Exception):
