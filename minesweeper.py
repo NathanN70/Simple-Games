@@ -50,12 +50,13 @@ class minesweeper:
     
 
     def show_shown(self):
-        pass
+        for x in range(self.width):
+            print(self.grid[x])
 
     def move(self):
         try:
-            x = int(input("X Coordinate From Left? Pick a number from '1' to the width: "))
-            y = int(input("Y Coordinate From Top? Pick a number from '1' to the height: "))
+            x = int(input("X Coordinate From Left? Pick a number from '1' to the width: ")) - 1
+            y = int(input("Y Coordinate From Top? Pick a number from '1' to the height: ")) - 1
             ifmark = int(input("Mark or Select? If Mark, type '1'. If Select, Type '2'. "))
             if x < 0 or y < 0 or x >= self.width or y >= self.height or ifmark < 1 or ifmark > 2:
                 print("Invalid Input")
@@ -76,6 +77,7 @@ class minesweeper:
             temp = self.grid[x][y]
             if temp == -1:
                 raise GameOver
+            self.shown[x][y] = temp
 
         
 class GameOver(Exception):
