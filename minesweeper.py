@@ -124,13 +124,10 @@ class minesweeper:
 class GameOver(Exception):
     pass
 
-def play(width = 10, height = 10, mines = 15):
-    board = minesweeper(width, height, mines)
-
 resume = True
 while resume == True:
     try:
-        play(int(input("Board Width? ")), int(input("Board Height? ")), int(input("Mine Count? ")))
+        minesweeper(int(input("Board Width? ")), int(input("Board Height? ")), int(input("Mine Count? ")))
         resume = False
     except TypeError:
         print("Input an Integer")
