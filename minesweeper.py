@@ -50,11 +50,13 @@ class minesweeper:
             return
         if temp == "?":
             self.shown[y][x] = "!"
+            self.mines -= 1
         else:
             self.shown[y][x] = "?"
+            self.mines += 1
     # show revealed board to player, including marked mines
     def show_shown(self):
-        print(" X ", end = "|")
+        print(str(self.mines).center(3), end = "|")
         for x in range(self.width):
             print(str(x + 1).center(3), end = "")
         print("\n----" + ("---" * self.width))
@@ -105,6 +107,8 @@ class minesweeper:
                 try:
                     if self.shown[y + ver][x + hor] == 0:
                         continue
+                    if self.shown[y + ver][x + hor] == "!":
+                        self.mines -= 1
                     self.shown[y + ver][x + hor] = self.grid[y + ver][x + hor]
                     if self.grid[y + ver][x + hor] == 0:
                         self.implicit_move(x + hor, y + ver)
