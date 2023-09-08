@@ -84,12 +84,16 @@ class minesweeper:
                 return
             temp = self.grid[y][x]
             if temp == -1:
+                print("Boom. You Lose!")
                 raise GameOver
             self.shown[y][x] = str(temp)
             if temp == 0:
                 self.implicit_move(x, y)
             self.show_shown()
-            self.check_win()
+            if self.check_win():
+                print("You Win!")
+                raise GameOver
+            
     
     def implicit_move(self, x, y):
         for hor in range(-1, 2):
@@ -110,7 +114,11 @@ class minesweeper:
         pass
 
     def check_win(self):
-        pass
+        for x in range(self.width):
+            for y in range(self.height):
+                if self.grid[y][x] >= 0 and self.shown[y][x] in ["!", "?"]:
+                    return False
+        return True
 
         
 class GameOver(Exception):
@@ -127,8 +135,7 @@ while resume == True:
     except TypeError:
         print("Input an Integer")
     except GameOver:
-        print("Boom. You Lose")
-        if input("Type 'Continue' to try again. ") != "Continue":
+        if input("Type 'Continue' to play again. ") != "Continue":
             resume = False
     except:
         print("Unexpected Error")
