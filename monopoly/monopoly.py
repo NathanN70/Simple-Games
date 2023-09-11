@@ -4,11 +4,49 @@ class monopoly:
     def __init__(self, playercount):
         self.playercount = playercount
         self.players = [player(x + 1) for x in range(playercount)]
+        random.seed()
 
     def move(self, currentplayer):
         print("Player " + str(currentplayer.position) + " Turn")
         if currentplayer.jailed >= 0:
             self.jailmove(currentplayer)
+            return
+        print("Rolling...")
+        firstdie = random.randint(1, 6)
+        seconddie = random.randint(1, 6)
+        doubles = 1
+        print(str(firstdie) + ", " + str(seconddie))
+        # pass go check
+        self.checkgopass(currentplayer, firstdie + seconddie)
+
+        # new location effect
+
+        while firstdie == seconddie:
+            print("Doubles! Go Again!")
+            print("Rolling...")
+            firstdie = random.randint(1, 6)
+            seconddie = random.randint(1, 6)
+            print(str(firstdie) + ", " + str(seconddie))
+            if firstdie == seconddie:
+                doubles += 1
+                if doubles == 3:
+                    break
+            self.checkgopass(currentplayer, firstdie + seconddie)
+            currentplayer.location += firstdie + seconddie
+            # new location effect
+        if doubles == 3:
+            print("Speeding! Go to Jail!")
+            currentplayer.location = 10
+            currentplayer.jailed = 3
+        # prompt actions (build houses, manage mortgages, etc.)
+        # next player's turn
+        
+
+        
+    def checkgopass(self, currentplayer, roll):
+        if currentplayer.location + roll >= 40:
+            currentplayer.money += 200
+            currentplayer.location -= 40
         
         
         
@@ -35,6 +73,16 @@ class monopoly:
         if 'Yes' == input("Player " + str(currentplayer.position) + " buy out of jail for $50? Type 'Yes' to buy out. "):
             self.takemoney(currentplayer, 50)
             return
+        print("Rolling...")
+        firstdie = random.randint(1, 6)
+        seconddie = random.randint(1, 6)
+        print(str(firstdie) + ", " + str(seconddie))
+        if firstdie == seconddie:
+            print("Doubles! Break out of Jail!")
+        currentplayer.location += firstdie + seconddie
+        # new location effect
+        # prompt actions
+        # next player's turn
         
             
     
@@ -54,7 +102,7 @@ class player:
         # get out of jail free cards
         self.gooj = 0
         self.property = []
-        self.space = 0
+        self.location = 0
         self.position = position
         self.jailed = -1
 
