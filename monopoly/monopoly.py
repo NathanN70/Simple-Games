@@ -10,17 +10,17 @@ class monopoly:
         for square in board_to_use.board:
             squaretype = square[0][0]
             if squaretype == "X":
-                self.board.append(free([square[0], square[1]]))
+                self.board.append(free(square[0], square[1]))
             if squaretype == "Y":
-                self.board.append(chest([square[0], square[1]]))
+                self.board.append(chest(square[0], square[1]))
             if squaretype == "Z":
-                self.board.append(chance([square[0], square[1]]))
+                self.board.append(chance(square[0], square[1]))
             if squaretype == "R":
-                self.board.append(rail([square[0], square[1]], square[2], square[3]))
+                self.board.append(rail(square[0], square[1], square[2], square[3]))
             if squaretype == "U":
-                self.board.append(util([square[0], square[1]], square[2], square[3]))
+                self.board.append(util(square[0], square[1], square[2], square[3]))
             if squaretype in ["A", "B", "C", "D", "E", "F", "G", "H"]:
-                self.board.append(norm([square[0], square[1]], square[2], square[3], square[4]))
+                self.board.append(norm(square[0], square[1], square[2], square[3], square[4]))
         # initialize board
 
     def move(self, currentplayer):
@@ -228,7 +228,8 @@ class rail(property):
 
 class norm(property):
     def __init__(self, id, name, buy_price, prices, house_cost):
-        super().__init__(id, name, buy_price, prices, house_cost)
+        self.house_cost = house_cost
+        super().__init__(id, name, buy_price, prices)
 
 class GameOver(Exception):
     pass
