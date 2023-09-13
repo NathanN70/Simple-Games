@@ -139,54 +139,44 @@ class player:
         self.location = 0
         self.position = position
         self.jailed = -1
-
+# location id based on code system. Letter, then Number. Normal props, Letters A-H each represent a district. The number (1-3) represents different props in the district
+# for free spaces, letter X, number system same
+# for rails and utility, letters R and H (rails number 1-4)
+# for chest and chance, letters Y and Z
 class location:
-    pass
+    def __init__(self, id, board_placement):
+        self.id = id
+        self.board_placement = board_placement
 
-class go(location):
-    pass
+class free(location):
+    def __init__(self, id, board_placement):
+        super.__init__(id, board_placement)
 
 class chest(location):
-    pass
+    def __init__(self, id, board_placement):
+        super.__init__(id, board_placement)
 
 class chance(location):
-    pass
+    def __init__(self, id, board_placement):
+        super.__init__(id, board_placement)
 
 class property(location):
-    pass
+    def __init__(self, id, board_placement, buy_price, prices):
+        self.buy_price = buy_price
+        self.prices = prices
+        super.__init__(id, board_placement)
 
 class util(property):
-    pass
+    def __init__(self, id, board_placement, buy_price, prices):
+        super().__init__(id, board_placement, buy_price, prices)
 
 class rail(property):
-    pass
+    def __init__(self, id, board_placement, buy_price, prices):
+        super.__init__(id, board_placement, buy_price, prices)
 
 class norm(property):
-    pass
-
-class normA(norm):
-    pass
-
-class normB(norm):
-    pass
-
-class normC(norm):
-    pass
-
-class normD(norm):
-    pass
-
-class normE(norm):
-    pass
-
-class normF(norm):
-    pass
-
-class normG(norm):
-    pass
-
-class normH(norm):
-    pass
+    def __init__(self, id, board_placement, buy_price, house_cost, prices):
+        super.__init__(id, board_placement, buy_price, house_cost, prices)
 
 class GameOver(Exception):
     pass
