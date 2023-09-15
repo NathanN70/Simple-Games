@@ -54,7 +54,8 @@ class monopoly:
         currentplayer.location += firstdie + seconddie
         # new location effect
         self.locationeffect(currentplayer)
-
+        if currentplayer.jailed == 3:
+            firstdie = 0
         while firstdie == seconddie:
             print("Doubles! Go Again!")
             print("Rolling...")
@@ -67,6 +68,8 @@ class monopoly:
             self.checkgopass(currentplayer, firstdie + seconddie)
             currentplayer.location += firstdie + seconddie
             self.locationeffect(currentplayer)
+            if currentplayer.jailed == 3:
+                break
         if doubles == 3:
             print("Speeding! Go to Jail!")
             currentplayer.location = 0
@@ -113,6 +116,12 @@ class monopoly:
             return
         if isinstance(newlocation, chance):
             self.landchance(currentplayer)
+            return
+        if isinstance(newlocation, tax):
+            self.takemoney(currentplayer, newlocation.payment)
+            return
+        if isinstance(newlocation, gotojail):
+            currentplayer.jailed = 3
 
     def landprop(self, currentplayer, prop):
         if prop.owner == 0:
@@ -157,8 +166,7 @@ class monopoly:
             currentplayer.jailed = -1
             return
         print("Rolling...")
-        firstdie = d6()
-        seconddie = d6()
+        firstdie, seconddie = d6(), d6()
         print(str(firstdie) + ", " + str(seconddie))
         if firstdie == seconddie:
             print("Doubles! Break out of Jail! (No Additional Move)")
@@ -238,6 +246,15 @@ class chest(location):
         super().__init__(id, name)
 
 class chance(location):
+    def __init__(self, id, name):
+        super().__init__(id, name)
+
+class tax(location):
+    def __init__(self, id, name, payment):
+        self.payment = payment
+        super().__init__(id, name)
+
+class gotojail(location):
     def __init__(self, id, name):
         super().__init__(id, name)
 
