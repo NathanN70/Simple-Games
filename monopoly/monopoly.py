@@ -25,6 +25,10 @@ class monopoly:
                 self.board.append(norm(square[0], square[1], square[2], square[3], square[4]))
         # initialize board
         self.losers = []
+        self.comchest_discard = []
+        self.chan_discard = []
+        self.comchest = board_to_use.chest
+        self.chan = board_to_use.chance
         for x in range(len(self.players)):
             if self.players[x] not in self.losers:
                 self.move(self.players[x])
@@ -216,7 +220,7 @@ class monopoly:
         
         
 def d6():
-    return random.randint(1, 2)
+    return random.randint(1, 6)
 
 
 class player:

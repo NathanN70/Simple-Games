@@ -49,6 +49,5 @@ board = [
     ["T2", "Luxury Tax", 75],
     ["H2", "Boardwalk", 400, [50, 200, 600, 1400, 1700, 2000], 200]
 ]
-for x in board:
-    print(x[0], len(x))
-print(len(board))
+chest = []
+chance = []
