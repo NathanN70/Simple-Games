@@ -49,5 +49,11 @@ board = [
     ["T2", "Luxury Tax", 75],
     ["H2", "Boardwalk", 400, [50, 200, 600, 1400, 1700, 2000], 200]
 ]
-chest = []
-chance = []
+# chest and chance structure:
+# card description(to be printed and shown), lambda function (inputs currentplayer, playerlist), can modify currentplayer and playerlist money, currentplayer location, and cp gooj. can check currentplayer houses
+chest = [
+    # to add
+]
+chance = [
+    # to add
+]

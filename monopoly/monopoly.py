@@ -29,6 +29,8 @@ class monopoly:
         self.chan_discard = []
         self.comchest = board_to_use.chest
         self.chan = board_to_use.chance
+        random.shuffle(self.chan)
+        random.shuffle(self.comchest)
         for x in range(len(self.players)):
             if self.players[x] not in self.losers:
                 self.move(self.players[x])
@@ -134,10 +136,32 @@ class monopoly:
                 self.buyprop(currentplayer, prop)
 
     def landchest(self, currentplayer):
-        pass
+        currentlocation = currentplayer.location
+        card = self.comchest.pop()
+        print(card[0])
+        card[1](currentplayer, self.players)
+        for x in self.players:
+            self.takemoney(x, 0)
+        if currentlocation != currentplayer.location:
+            self.locationeffect(currentplayer)
+        # if comchest deck empty, put discards in main deck, shuffle(not including unused gooj)
+        if len(self.comchest) == 0:
+            self.comchest, self.comchest_discard = self.comchest_discard, []
+            random.shuffle(self.comchest)
 
     def landchance(self, currentplayer):
-        pass
+        currentlocation = currentplayer.location
+        card = self.chan.pop()
+        print(card[0])
+        card[1](currentplayer, self.players)
+        for x in self.players:
+            self.takemoney(x, 0)
+        if currentlocation != currentplayer.location:
+            self.locationeffect(currentplayer)
+        if len(self.chan) == 0:
+            self.chan, self.chan_discard = self.chan_discard, []
+            random.shuffle(self.chan)
+
 
         
 
