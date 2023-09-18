@@ -51,6 +51,7 @@ board = [
 ]
 # chest and chance structure:
 # card description(to be printed and shown), lambda function (inputs currentplayer, playerlist), can modify currentplayer and playerlist money, currentplayer location, and cp gooj. can check currentplayer houses
+# from: http://www.zpag.net/Jeux/list_of_all_monopoly_Chance_Community_Chest.html
 chest = [
     # to add
 ]

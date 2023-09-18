@@ -9,6 +9,11 @@ class monopoly:
         self.players = [player(x + 1) for x in range(playercount)]
         random.seed()
         self.board = []
+        self.railroads = []
+        self.utilities = []
+        self.normalprops = []
+        for x in range(8):
+            self.normalprops.append([])
         for square in board_to_use.board:
             squaretype = square[0][0]
             if squaretype == "X":
@@ -19,10 +24,13 @@ class monopoly:
                 self.board.append(chance(square[0], square[1]))
             if squaretype == "R":
                 self.board.append(rail(square[0], square[1], square[2], square[3]))
+                self.railroads.append(square)
             if squaretype == "U":
                 self.board.append(util(square[0], square[1], square[2], square[3]))
+                self.utilities.append(square)
             if squaretype in ["A", "B", "C", "D", "E", "F", "G", "H"]:
                 self.board.append(norm(square[0], square[1], square[2], square[3], square[4]))
+                self.normprops[ord(squaretype) - ord("A")].append(square)
         # initialize board
         self.losers = []
         self.comchest_discard = []
