@@ -60,6 +60,10 @@ class monopoly:
         currentplayer.location += firstdie + seconddie
         # new location effect
         self.locationeffect(currentplayer)
+        # check if lost due to location effect
+        if currentplayer in self.losers:
+            return
+        # if landed on go to jail, this triggers, forcing the doubles trigger not to happen
         if currentplayer.jailed == 3:
             firstdie = 0
         while firstdie == seconddie:
@@ -74,6 +78,8 @@ class monopoly:
             self.checkgopass(currentplayer, firstdie + seconddie)
             currentplayer.location += firstdie + seconddie
             self.locationeffect(currentplayer)
+            if currentplayer in self.losers:
+                return
             if currentplayer.jailed == 3:
                 break
         if doubles == 3:
@@ -88,11 +94,7 @@ class monopoly:
                 if action == '2':
                     self.managemortgages(currentplayer)
                 action = input("Any more actions? Type '1' to manage houses, Type '2' to manage mortgages. ")
-        
-        if self.players[-1] != currentplayer:
-            self.move(self.players[self.players.index(currentplayer) + 1])
-        else:
-            self.move(self.players[0])                
+                     
         # prompt actions (build houses, manage mortgages, etc.)
         # next player's turn
         
@@ -166,12 +168,11 @@ class monopoly:
         
 
     def jailmove(self, currentplayer):
-        print("first")
+        print("Jailed turns remaining: " + str(currentplayer.jailed))
         if currentplayer.jailed == 0:
             self.takemoney(currentplayer, 50)
             currentplayer.jailed = -1
             return
-        print("second")
         if currentplayer.gooj != 0:
             print(str(currentplayer.jailed) + " Turns remaining in jail.")
             usegooj = input("Do you want to use a Get Out of Jail Free card? If yes, type 'Yes'. If not type anything else. ")
@@ -188,7 +189,6 @@ class monopoly:
                     currentplayer.gooj = 0
                 currentplayer.jailed = -1
                 return
-        print("third")
         if input("Player " + str(currentplayer.jailed) + " buy out of jail for $50? Type 'Yes' to buy out. ") == 'Yes':
             self.takemoney(currentplayer, 50)
             currentplayer.jailed = -1
@@ -201,6 +201,8 @@ class monopoly:
             currentplayer.jailed == -2
             currentplayer.location += firstdie + seconddie
             self.locationeffect(currentplayer)
+            if currentplayer in self.losers:
+                return
             return
         if input("Any more actions?(houses, mortgages) Type 'Yes' if so. ") == 'Yes':
             action = input("What action would you like to take? Type '1' to manage houses, Type '2' to manage mortgages. ")
@@ -218,14 +220,49 @@ class monopoly:
         currentplayer.money -= amount
         if currentplayer.money >= 0:
             return
-        # get more money through selling/mortgaging properties
+        print(currentplayer + " doesn't have enough money on hand!", "Current Balance: " + str(currentplayer.money), sep = "\n")
+        tomanage = []
+        for prop in currentplayer.property:
+            if prop.houses >= 0:
+                # print(prop.name + ": " + str(prop.houses))
+                tomanage.append(prop)
+        while currentplayer.money < 0 and tomanage != []:
+            # get more money through selling houses/mortgaging properties
+            for x in range(len(tomanage)):
+                print(str(x + 1) + ": " + str(tomanage[x].name), str(tomanage[x].houses))
+            
+            try:
+                print("Do you want to manage houses or mortgage properties?")
+                whatdo = input("To manage houses, type '1'. To manage mortgages, type '2'")
+                if whatdo not in ['1', '2']:
+                    raise
+                if whatdo == '1':
+                    self.managehouses(currentplayer)
+                else:
+                    self.managemortgages(currentplayer)
+            except:
+                print("Invalid Input")
+        if currentplayer.money < 0:
+            print(currentplayer + " is bankrupt!")
+            self.losers.append(currentplayer)
+
+        
     
     def managehouses(self, currentplayer):
         managing = True
         while managing:
-            for prop in currentplayer.property:
-                print(prop, prop.houses)
-            tomanage = input("What property do you want to manage the houses of? ")
+            for x in range(len(currentplayer.property)):
+                print(str(x + 1) + ": " + str(currentplayer.property[x].name), str(currentplayer.property[x].houses))
+            try:
+                tomanage = int(input("What property do you want to manage the houses of? Type the number corresponding to the property(to the left of the property in the above list) ")) - 1
+                if tomanage not in range(len(currentplayer.property)):
+                    raise
+                tomanage = currentplayer.property[tomanage]
+                if not isinstance(tomanage, norm):
+                    raise
+            
+            except:
+                print("Invalid Input")
             # management
             moremanaging = input("Do you want to manage more houses? If so, type '1'")
             if moremanaging != '1':
@@ -234,11 +271,16 @@ class monopoly:
     def managemortgages(self, currentplayer):
         managing = True
         while managing:
-            for prop in currentplayer.property:
-                print(prop, prop.houses)
-            tomanage = input("What property do you want to manage the houses of? ")
-            # management
-            moremanaging = input("Do you want to manage more houses? If so, type '1'")
+            for x in range(len(currentplayer.property)):
+                print(str(x + 1) + ": " + str(currentplayer.property[x].name), str(currentplayer.property[x].houses))
+            try:
+                tomanage = int(input("What property do you want to manage the mortgages of? Type the number corresponding to the property(to the left of the property in the above list) ")) - 1
+                if tomanage not in range(len(currentplayer.property)):
+                    raise
+                tomanage = currentplayer.property[tomanage]
+            except:
+                print("Invalid Input")
+            moremanaging = input("Do you want to manage more mortgages? If so, type '1'")
             if moremanaging != '1':
                 managing = False
         
@@ -256,6 +298,8 @@ class player:
         self.property = []
         self.location = 0
         self.jailed = -1
+    def __str__(self):
+        return self.name
 # location id based on code system. Letter, then Number. Normal props, Letters A-H each represent a district. The number (1-3) represents different props in the district
 # for free spaces, letter X, number system same
 # for rails and utility, letters R and U (rails number 1-4)
@@ -304,6 +348,7 @@ class rail(property_class):
 class norm(property_class):
     def __init__(self, id, name, buy_price, prices, house_cost):
         self.house_cost = house_cost
+        self.houses = 0
         super().__init__(id, name, buy_price, prices)
 
 class GameOver(Exception):
